@@ -4,8 +4,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
     margin: 0;
+    background-color: #ffffff;
 }
 
 .container {
@@ -19,30 +19,37 @@ h1 {
 #game-board {
     display: grid;
     grid-template-columns: repeat(5, 100px);
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
 .cell {
     width: 100px;
     height: 100px;
-    border: 2px solid #ccc;
+    border: 2px solid #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cell:hover {
+    transform: scale(1.05);
 }
 
 .cell img {
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+    transition: opacity 0.3s;
 }
 
 .cell.selected {
-    border-color: #888;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.8); /* Destaque sutil */
 }
 
 .cell.correct {
@@ -56,8 +63,8 @@ h1 {
 }
 
 .cell.incorrect {
-    background-color: #787c7e;
-    border-color: #787c7e;
+    background-color: #000000;
+    border-color: #000000;
 }
 
 #check-btn, #reset-btn {
@@ -72,7 +79,35 @@ h1 {
 }
 
 #feedback {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
+    font-weight: bold;
+    color: #000000;
+}
+
+#attempts {
+    color: #000000;
+}
+
+#selected-sequence {
+    color: #007bff;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #007bff;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
 }

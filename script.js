@@ -1,4 +1,4 @@
-const imageIds = ['img1', 'img2', 'img3', 'img4', 'img5']; // Lista de IDs das imagens
+const imageIds = ['Bárbara', 'Camponesa', 'Espadachim', 'Guerreira', 'Lanceiro']; // Lista de IDs das imagens
 let correctSequence = []; // Sempre será aleatório a ordem
 let selectedSequence = [];
 let attemptsLeft = 3; // Começa com 3 tentativas
@@ -21,7 +21,6 @@ function initGameBoard() {
         cell.classList.add('cell');
         const img = document.createElement('img');
         img.src = `src/${imgId}.png`; // Ajuste o caminho das imagens conforme necessário
-        img.alt = `Imagem ${imgId}`;
         img.id = imgId;
         cell.appendChild(img);
         gameBoard.appendChild(cell);
@@ -40,6 +39,7 @@ function handleCellClick(event) {
         selectedSequence.push(imgId);
         cell.classList.add('selected');
     }
+    updateSelectedSequenceDisplay(); // Atualiza a exibição da sequência escolhida
 }
 
 function checkSequence() {
@@ -83,7 +83,6 @@ function checkSequence() {
     resetSelection();
 }
 
-
 function arraysEqual(a, b) {
     return a.length === b.length && a.every((val, index) => val === b[index]);
 }
@@ -117,6 +116,11 @@ function disableGame() {
         cell.removeEventListener('click', handleCellClick);
     });
     document.getElementById('check-btn').disabled = true;
+}
+
+function updateSelectedSequenceDisplay() {
+    const selectedSequenceDisplay = document.getElementById('selected-sequence');
+    selectedSequenceDisplay.innerHTML = 'Sequência Escolhida: ' + selectedSequence.join(', ');
 }
 
 // Inicializa o tabuleiro de jogo na primeira carga da página

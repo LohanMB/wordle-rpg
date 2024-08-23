@@ -1,5 +1,7 @@
-const correctSequence = ['img1', 'img3', 'img5', 'img2', 'img4'];
+const imageIds = ['img1', 'img2', 'img3', 'img4', 'img5']; // Lista de IDs das imagens
+let correctSequence = []; // Sempre será aleatório a ordem
 let selectedSequence = [];
+let attemptsLeft = 3; // Começa com 3 tentativas
 
 document.getElementById('check-btn').addEventListener('click', checkSequence);
 document.getElementById('reset-btn').addEventListener('click', resetGame);
@@ -8,15 +10,18 @@ function initGameBoard() {
     const gameBoard = document.getElementById('game-board');
     gameBoard.innerHTML = '';
 
-    // Embaralha a ordem das imagens
+    // Gera a sequência correta aleatória
+    correctSequence = shuffleArray([...imageIds]);
+
+    // Embaralha a ordem das imagens para o jogador escolher
     const shuffledSequence = shuffleArray([...correctSequence]);
 
     shuffledSequence.forEach(imgId => {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         const img = document.createElement('img');
-        img.src = `src/${imgId}.png`;
-        img.alt = `Image ${imgId}`;
+        img.src = `src/${imgId}.png`; // Ajuste o caminho das imagens conforme necessário
+        img.alt = `Imagem ${imgId}`;
         img.id = imgId;
         cell.appendChild(img);
         gameBoard.appendChild(cell);
@@ -44,12 +49,15 @@ function checkSequence() {
     }
 
     const cells = document.querySelectorAll('.cell');
+    let correctCount = 0;
+
     cells.forEach((cell, index) => {
         const imgId = cell.querySelector('img').id;
         cell.classList.remove('correct', 'wrong-position', 'incorrect');
 
         if (imgId === correctSequence[selectedSequence.indexOf(imgId)]) {
             cell.classList.add('correct');
+            correctCount++;
         } else if (correctSequence.includes(imgId)) {
             cell.classList.add('wrong-position');
         } else {
@@ -59,12 +67,22 @@ function checkSequence() {
 
     if (arraysEqual(selectedSequence, correctSequence)) {
         document.getElementById('feedback').innerText = "Parabéns! Você acertou!";
+        disableGame();
     } else {
-        document.getElementById('feedback').innerText = "Tente novamente.";
+        attemptsLeft--;
+        document.getElementById('attempts').innerText = `Tentativas restantes: ${attemptsLeft}`;
+
+        if (attemptsLeft > 0) {
+            document.getElementById('feedback').innerText = "Tente novamente.";
+        } else {
+            document.getElementById('feedback').innerText = "Game Over! Você usou todas as tentativas.";
+            disableGame();
+        }
     }
 
     resetSelection();
 }
+
 
 function arraysEqual(a, b) {
     return a.length === b.length && a.every((val, index) => val === b[index]);
@@ -87,7 +105,18 @@ function shuffleArray(array) {
 function resetGame() {
     document.getElementById('feedback').innerText = "";
     selectedSequence = [];
+    attemptsLeft = 3;
+    document.getElementById('attempts').innerText = `Tentativas restantes: ${attemptsLeft}`;
+    document.getElementById('check-btn').disabled = false;
     initGameBoard();
+}
+
+function disableGame() {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.removeEventListener('click', handleCellClick);
+    });
+    document.getElementById('check-btn').disabled = true;
 }
 
 // Inicializa o tabuleiro de jogo na primeira carga da página

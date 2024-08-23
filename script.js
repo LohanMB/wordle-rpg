@@ -10,11 +10,9 @@ function initGameBoard() {
     const gameBoard = document.getElementById('game-board');
     gameBoard.innerHTML = '';
 
-    // Gera a sequência correta aleatória
-    correctSequence = shuffleArray([...imageIds]);
+    correctSequence = shuffleArray([...imageIds]); // Gera a sequência correta aleatória
 
-    // Embaralha a ordem das imagens para o jogador escolher
-    const shuffledSequence = shuffleArray([...correctSequence]);
+    const shuffledSequence = shuffleArray([...correctSequence]); // Embaralha a ordem das imagens para o jogador escolher
 
     shuffledSequence.forEach(imgId => {
         const cell = document.createElement('div');
@@ -123,5 +121,4 @@ function updateSelectedSequenceDisplay() {
     selectedSequenceDisplay.innerHTML = 'Sequência Escolhida: ' + selectedSequence.join(', ');
 }
 
-// Inicializa o tabuleiro de jogo na primeira carga da página
-initGameBoard();
+initGameBoard(); // Inicializa o tabuleiro de jogo na primeira carga da página
